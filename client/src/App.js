@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import Product from "./components/product/product";
 import List from "./components/list/list";
+import Locallist from "./components/locallist/locallist";
 import { Tabs } from "antd";
 
 const { TabPane } = Tabs;
@@ -17,6 +18,7 @@ function App() {
         <div className="App-header">shop list</div>
       </header>
       <List />
+      <Locallist />
       <div className="taball">
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="בחר מוצרים" key="1">

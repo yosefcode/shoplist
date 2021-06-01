@@ -4,10 +4,22 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
+const port = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "client/build")));
+
+// const socketIo = require("socket.io");
+const http = require("http");
+const server = http.createServer(app);
+// const io = socketIo(server);
+const options = { cors: true, origins: ["http://127.0.0.1:3000"] };
+const io = require("socket.io")(server, options);
+
+server.listen(port, () => {
+  console.log("Example app listening on port 8000!");
+});
 
 app.get("/api/fruit/", (req, res) => {
   fs.readFile("fruit.json", (err, data) => {
@@ -22,6 +34,7 @@ app.get("/api/milk/", (req, res) => {
     res.send(products);
   });
 });
+
 app.get("/api/list/", (req, res) => {
   fs.readFile("products.json", (err, data) => {
     const list = JSON.parse(data);
@@ -32,12 +45,6 @@ app.get("/api/list/", (req, res) => {
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 // });
-
-const port = process.env.PORT || 8000;
-
-app.listen(port, () => {
-  console.log("Example app listening on port 8000!");
-});
 
 // push arry
 app.post("/api/cart/", (req, res) => {
@@ -56,22 +63,25 @@ app.post("/api/cart/", (req, res) => {
     fs.writeFile("products.json", JSON.stringify(products), (err) => {
       res.send(products);
     });
+    io.emit("AddProduct");
   });
 });
+
 // const { id } = useParams();
 
 // delete
-// app.delete("/:id", (req, res) => {
-//   fs.readFile("products.json", (err, data) => {
-//     const products = JSON.parse(data);
-//     const todoId = +req.params.id;
-//     const todoIndex = products.findIndex((todo) => todo.id === todoId);
-//     products.splice(todoIndex, 1);
-//     fs.writeFile("products.json", JSON.stringify(products), (err) => {
-//       res.send("delete");
-//     });
-//   });
-// });
+app.delete("/api/list/:id", (req, res) => {
+  fs.readFile("products.json", (err, data) => {
+    const products = JSON.parse(data);
+    const todoId = +req.params.id;
+    const todoIndex = products.findIndex((todo) => todo.id === todoId);
+    products.splice(todoIndex, 1);
+    fs.writeFile("products.json", JSON.stringify(products), (err) => {
+      res.send("delete");
+    });
+    io.emit("AddProduct");
+  });
+});
 
 // search
 // app.get("/todos", (req, res) => {

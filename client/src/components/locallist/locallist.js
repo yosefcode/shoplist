@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
-import "./list.css";
-import axios from "axios";
-import socketIOClient from "socket.io-client";
+import "./locallist.css";
+// import axios from "axios";
 
-const Listdata = (props) => {
+const Locallist = (props) => {
+  const storage = JSON.parse(localStorage.getItem("userName"));
   let [products, setProducts] = useState([]);
 
-  const socket = socketIOClient("http://localhost:8000");
-
-  const getproducts = () => {
-    axios.get("/api/list/").then((res) => {
-      setProducts(res.data);
-    });
-  };
-
   useEffect(() => {
-    getproducts();
-    socket.on("AddProduct", () => {
-      getproducts();
-    });
+    // axios.get("http://127.0.0.1:8000/api/list/").then((res) => {
+    setProducts(storage === null ? null : storage);
   }, []);
 
   return (
-    <div className="divlist">
+    <div className="divlocallist">
       {products.map((product) => (
         <div className="list" key={product.id}>
           <input
@@ -59,4 +49,4 @@ const Listdata = (props) => {
   );
 };
 
-export default Listdata;
+export default Locallist;
