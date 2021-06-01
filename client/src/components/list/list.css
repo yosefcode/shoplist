@@ -1,0 +1,45 @@
+.divlist {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 10% 20% 35% 35%;
+  background: #f1c89c;
+  width: 300px;
+  height: 50px;
+  border-bottom: 2px solid black;
+  border-radius: 13px;
+  margin: 0 auto;
+  padding: 5px;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+}
+input {
+  width: 18px;
+  height: 18px;
+}
+button {
+  margin-top: 5px;
+  width: 25px;
+  height: 25px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(0, 0, 0);
+  transition-duration: 0.4s;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgb(255, 255, 255);
+}
