@@ -6,7 +6,7 @@ import socketIOClient from "socket.io-client";
 const Listdata = (props) => {
   let [products, setProducts] = useState([]);
 
-  const socket = socketIOClient("http://localhost:8000");
+  const socket = socketIOClient(process.env.REACT_APP_URLSOCKET);
 
   const getproducts = () => {
     axios.get("/api/list/").then((res) => {
