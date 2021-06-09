@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./fruit.css";
 import axios from "axios";
 
-const Fruit = (props) => {
+const Fruit = ({ onchange }) => {
   let [products, setProducts] = useState([]);
   let [kamut, setkamut] = useState(1);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/fruit/").then((res) => {
+    axios.get("/api/fruit/").then((res) => {
       setProducts(res.data);
-      console.log(res.data);
     });
   }, []);
 
@@ -17,7 +16,7 @@ const Fruit = (props) => {
     <div className="opendiv">
       {products.map((product) => (
         <div className="product" key={product.id}>
-          <input type="checkbox"></input>
+          <input type="checkbox" onChange={() => onchange(product)}></input>
           <img src={product.image} alt=""></img>
           {product.title}
           <div>

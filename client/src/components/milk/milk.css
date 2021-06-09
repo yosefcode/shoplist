@@ -3,11 +3,11 @@
   grid-template-columns: 10% 20% 45% 25%;
   background: -webkit-linear-gradient(#f1c89c, #3f459e);
   width: 400px;
-  height: 80px;
+  height: 60px;
   border-bottom: 2px solid black;
   border-radius: 13px;
   margin: 0 auto;
-  padding: 15px;
+  padding: 10px;
   font-size: 24px;
   font-weight: 700;
   text-align: center;

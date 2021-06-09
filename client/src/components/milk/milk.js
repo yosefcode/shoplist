@@ -2,59 +2,24 @@ import React, { useState, useEffect } from "react";
 import "./milk.css";
 import axios from "axios";
 
-const Milk = (props) => {
+const Milk = ({ onchange, namelist }) => {
   let [products, setProducts] = useState([]);
   let [kamut, setkamut] = useState();
   // const [checked, setChecked] = React.useState(false);
-  // const [inputValue, setInputValue] = useState([]);
   // const [list, setlist] = useState([]);
 
   useEffect(() => {
+    // JSON.parse(localStorage.getItem("userName")) === null
+    //   ? localStorage.setItem("userName", JSON.stringify([]))
+    //   : console.log("aaa");
     axios.get("/api/milk/").then((res) => {
       setProducts(res.data);
     });
   }, []);
 
-  useEffect(() => {
-    axios.get("/api/list/").then((res) => {
-      localStorage.setItem("userName", JSON.stringify(res.data));
-    });
-  }, []);
-
-  const removeProduct = (productId) => {
-    axios.delete("/api/list/" + productId);
-  };
-
-  const onchange = (product) => {
-    const productId = product.id;
-    axios.get("/api/list/").then((res) => {
-      const listcart = res.data.find((prod) => prod.id === product.id);
-      if (!listcart) {
-        setkamut(product.kamut++);
-        axios.post("/api/cart/", {
-          id: product.id,
-          title: product.title,
-          kamut: product.kamut,
-        });
-        // .then((res) => {});
-
-        // setInputValue([
-        //   ...inputValue,
-        //   {
-        //     id: product.id,
-        //     title: product.title,
-        //     kamut: product.kamut,
-        //   },
-        // ]);
-      } else {
-        // setInputValue(
-        //   inputValue.filter((listpro) => product.id !== listpro.id)
-        // );
-        setkamut((product.kamut = 0));
-        removeProduct(productId);
-      }
-    });
-  };
+  // const removeProduct = (productId) => {
+  //   axios.delete("/api/list/" + productId);
+  // };
 
   return (
     <div className="opendiv">
@@ -62,9 +27,9 @@ const Milk = (props) => {
         <div className="product" key={product.id}>
           <input
             type="checkbox"
-            onChange={() => onchange(product, product.id)}
-            id={product.id}
-            value={(product.kamut, product.id)}
+            onChange={() => {
+              namelist && onchange(product);
+            }}
           ></input>
           <img src={product.image} alt=""></img>
           {product.title}
@@ -91,13 +56,13 @@ const Milk = (props) => {
           </div>
         </div>
       ))}{" "}
-      <button
+      {/* <button
         onClick={() => {
           console.log("prod");
         }}
       >
         aa
-      </button>
+      </button> */}
     </div>
   );
 };

@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import "./locallist.css";
-// import axios from "axios";
+import { AppContext } from "../../prodactcontext";
 
-const Locallist = (props) => {
-  const storage = JSON.parse(localStorage.getItem("userName"));
-  let [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    // axios.get("http://127.0.0.1:8000/api/list/").then((res) => {
-    setProducts(storage === null ? null : storage);
-  }, []);
+const Locallist = ({ onchange }) => {
+  const { addprodact, locallist, namelist, setNamalist } =
+    useContext(AppContext);
 
   return (
     <div className="divlocallist">
-      {products.map((product) => (
+      {namelist && <div>{` רשימה מס' ${namelist}`}</div>}{" "}
+      {locallist.map((product) => (
         <div className="list" key={product.id}>
-          <input
-            type="checkbox"
-            // onChange={() => onchange(product)}
-          ></input>
+          <button onClick={() => onchange(product)}>X</button>
           <img src={product.image} alt=""></img>
           {product.title}
           <div>
