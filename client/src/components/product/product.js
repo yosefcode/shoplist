@@ -5,6 +5,8 @@ import Fruit from "../fruit/fruit.js";
 import { Tabs } from "antd";
 import { AppContext } from "../../prodactcontext";
 import Locallist from "../locallist/locallist.js";
+import AllLocallist from "../all‏locallist/all‏locallist.js";
+import Btnlist from "../btnlist/btnlist";
 
 const { TabPane } = Tabs;
 
@@ -13,12 +15,8 @@ function callback(key) {
 }
 
 const Product = () => {
-  const { addprodact, locallist, namelist, setNamalist } =
+  const { addprodact, locallist, namelist, setNamelist } =
     useContext(AppContext);
-
-  const [addnamelist, setAddNamalista] = useState("");
-
-  const storagename = JSON.parse(localStorage.getItem(`locallistname`)) || [];
 
   const onchange = (product) => {
     const productslist = {
@@ -97,43 +95,9 @@ const Product = () => {
           <h1 style={{ color: "white" }}>בקרוב </h1>{" "}
         </TabPane>
       </Tabs>
-      <div>
-        <input
-          className="input"
-          onInput={(e) => {
-            setAddNamalista(e.target.value);
-          }}
-        ></input>
-        <button
-          onClick={() => {
-            // localStorage.setItem(`locallist${addnamelist}`, JSON.stringify([]));
-            localStorage.setItem(
-              `locallistname`,
-              JSON.stringify([
-                ...(JSON.parse(localStorage.getItem(`locallistname`)) || []),
-                { namelist: addnamelist },
-              ])
-            );
-            setNamalist(addnamelist);
-          }}
-        >
-          +
-        </button>
-      </div>
-      <div>
-        {storagename.map((namelist) => (
-          <button
-            style={{ width: "70px", margin: "10px" }}
-            key={namelist.namelist}
-            onClick={() => {
-              setNamalist(namelist.namelist);
-            }}
-          >
-            {namelist.namelist}
-          </button>
-        ))}
-      </div>
+      <Btnlist />
       <Locallist onchange={onchange} />
+      <AllLocallist onchange={onchange} />
     </div>
   );
 };

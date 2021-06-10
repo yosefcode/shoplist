@@ -14,20 +14,19 @@ function callback(key) {
 
 function App() {
   const [locallist, setLocallist] = useState([]);
-  const [namelist, setNamalist] = useState("");
+  const [namelist, setNamelist] = useState("");
 
   useEffect(() => {
     !JSON.parse(localStorage.getItem(`locallist${namelist}`))
-      ? console.log("ss")
-      : // namelist &&
-        setLocallist(JSON.parse(localStorage.getItem(`locallist${namelist}`)));
+      ? setLocallist([])
+      : setLocallist(JSON.parse(localStorage.getItem(`locallist${namelist}`)));
   }, [namelist]);
 
   const valuelocallist = {
     locallist: locallist,
     addprodact: (value) => setLocallist(value),
     namelist: namelist,
-    setNamalist: (value) => setNamalist(value),
+    setNamelist: (value) => setNamelist(value),
   };
 
   return (
