@@ -1,32 +1,43 @@
+.opendiv {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .product {
-  display: grid;
-  grid-template-columns: 10% 20% 45% 25%;
-  background: -webkit-linear-gradient(#f1c89c, #3f459e);
-  width: 400px;
-  height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: center;
+  background: -webkit-linear-gradient(#3f459e, #f1c89c);
+  width: 150px;
+  height: 170px;
   border-bottom: 2px solid black;
   border-radius: 13px;
-  margin: 0 auto;
+  margin: 10px;
   padding: 10px;
   font-size: 24px;
   font-weight: 700;
-  text-align: center;
-  align-items: center;
+  /* text-align: center;
+  align-items: center; */
   font-family: Arial, Helvetica, sans-serif;
 }
 
-img {
-  width: 60px;
-  height: 50px;
+.product img {
+  width: 80px !important;
+  height: 80px !important;
+  margin: 0px auto;
   border-radius: 15px;
 }
 input {
   width: 18px;
   height: 18px;
 }
-button {
+.buttonplus {
   margin-top: 5px;
-  width: 30px;
+  width: 40px;
   height: 30px;
   border: none;
   border-radius: 5px;

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./all‏locallist.css";
 import { AppContext } from "../../prodactcontext";
 
-const Locallist = ({ onchange }) => {
+const Locallist = ({ setProduct }) => {
   const { addprodact, locallist, namelist, setNamelist } =
     useContext(AppContext);
   const storagename = JSON.parse(localStorage.getItem(`locallistname`)) || [];
@@ -10,8 +10,8 @@ const Locallist = ({ onchange }) => {
   return (
     <div className="divalllocallist">
       <div className="localover">
-        {storagename.map((name) => (
-          <div>
+        {storagename.map((name, index) => (
+          <div key={index}>
             <h1 style={{ fontWeight: 900 }}>
               {" "}
               <button
@@ -38,7 +38,19 @@ const Locallist = ({ onchange }) => {
               JSON.parse(localStorage.getItem(`locallist${name.namelist}`)).map(
                 (product) => (
                   <div className="list" key={product.id}>
-                    <button onClick={() => onchange(product)}>X</button>
+                    <button
+                      onClick={() => {
+                        setProduct({
+                          id: product.id,
+                          title: product.title,
+                          kamut: product.kamut,
+                          image: product.image,
+                          checked: false,
+                        });
+                      }}
+                    >
+                      X
+                    </button>
                     <img src={product.image} alt=""></img>
                     {product.title}
                     <div>

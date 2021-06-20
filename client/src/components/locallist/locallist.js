@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./locallist.css";
 import { AppContext } from "../../prodactcontext";
 
-const Locallist = ({ onchange }) => {
+const Locallist = ({ setProduct }) => {
   const { addprodact, locallist, namelist, setNamelist } =
     useContext(AppContext);
   const storagename = JSON.parse(localStorage.getItem(`locallistname`)) || [];
@@ -36,7 +36,19 @@ const Locallist = ({ onchange }) => {
         )}{" "}
         {locallist.map((product) => (
           <div className="list" key={product.id}>
-            <button onClick={() => onchange(product)}>X</button>
+            <button
+              onClick={() => {
+                setProduct({
+                  id: product.id,
+                  title: product.title,
+                  kamut: product.kamut,
+                  image: product.image,
+                  checked: false,
+                });
+              }}
+            >
+              X
+            </button>
             <img src={product.image} alt=""></img>
             {product.title}
             <div>

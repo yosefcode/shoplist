@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./product.css";
 import Milk from "../milk/milk.js";
 import Fruit from "../fruit/fruit.js";
@@ -13,65 +13,66 @@ const { TabPane } = Tabs;
 function callback(key) {
   // console.log(key);
 }
-
 const Product = () => {
   const { addprodact, locallist, namelist, setNamelist } =
     useContext(AppContext);
 
-  const onchange = (product) => {
-    const productslist = {
-      id: product.id,
-      title: product.title,
-      kamut: product.kamut,
-      image: product.image,
-    };
+  const [product, setProduct] = useState({});
 
-    const add = () => {
-      localStorage.setItem(
-        `locallist${namelist}`,
-        JSON.stringify([
-          ...(JSON.parse(localStorage.getItem(`locallist${namelist}`)) || []),
-          productslist,
-        ])
-      );
+  useEffect(() => {
+    namelist && onchange();
+  }, [product]);
 
-      addprodact((locallist) => [...locallist, productslist]);
-    };
+  const getItemlocallist =
+    JSON.parse(localStorage.getItem(`locallist${namelist}`)) || [];
 
-    const removelocal = locallist.filter(
-      (listpro) => product.id !== listpro.id
+  const removelocal = locallist.filter((listpro) => product.id !== listpro.id);
+
+  const removeprodact = !product
+    ? null
+    : getItemlocallist.filter((listpro) => product.id !== listpro.id);
+
+  const add = () => {
+    localStorage.setItem(
+      `locallist${namelist}`,
+      JSON.stringify([
+        ...(JSON.parse(localStorage.getItem(`locallist${namelist}`)) || []),
+        product,
+      ])
     );
 
-    const removeprodactall = () => {
-      localStorage.setItem(
-        `locallist${namelist}`,
-        JSON.stringify(removeprodact)
-      );
-      addprodact(removelocal);
-    };
+    addprodact((locallist) => [...locallist, product]);
+  };
 
-    const getItemlocallist =
-      JSON.parse(localStorage.getItem(`locallist${namelist}`)) || [];
+  const removeprodactall = () => {
+    localStorage.setItem(`locallist${namelist}`, JSON.stringify(removeprodact));
+    addprodact(removelocal);
+  };
 
-    const findprodact = getItemlocallist.find((prod) => prod.id === product.id);
+  const change = () => {
+    removeprodactall();
+    add();
+  };
 
-    const removeprodact = !findprodact
-      ? null
-      : getItemlocallist.filter((listpro) => findprodact.id !== listpro.id);
-
-    !findprodact ? add() : removeprodactall();
-
-    // setkamut((product.kamut = 0));
-
-    // // removeProduct(productId);
-    // console.log("aaa");
+  const onchange = () => {
+    !product
+      ? add()
+      : product.checked === false
+      ? removeprodactall()
+      : product.kamut > 0
+      ? change()
+      : removeprodactall();
   };
 
   return (
     <div className="tabpro" dir="rtl">
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="מוצרי חלב" key="1">
-          <Milk onchange={onchange} namelist={namelist} />
+          <Milk
+            onchange={onchange}
+            namelist={namelist}
+            setProduct={setProduct}
+          />
         </TabPane>
         <TabPane tab="פירות וירקות" key="2">
           <Fruit onchange={onchange} />
@@ -96,8 +97,8 @@ const Product = () => {
         </TabPane>
       </Tabs>
       <Btnlist />
-      <Locallist onchange={onchange} />
-      <AllLocallist onchange={onchange} />
+      <Locallist setProduct={setProduct} />
+      <AllLocallist setProduct={setProduct} />
     </div>
   );
 };

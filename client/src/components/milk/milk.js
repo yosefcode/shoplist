@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./milk.css";
 import axios from "axios";
 
-const Milk = ({ onchange, namelist }) => {
+const Milk = ({ onchange, namelist, setProduct }) => {
   let [products, setProducts] = useState([]);
   let [kamut, setkamut] = useState();
   // const [checked, setChecked] = React.useState(false);
-  // const [list, setlist] = useState([]);
+  const [list, setlist] = useState([]);
 
   useEffect(() => {
     // JSON.parse(localStorage.getItem("userName")) === null
@@ -14,8 +14,31 @@ const Milk = ({ onchange, namelist }) => {
     //   : console.log("aaa");
     axios.get("/api/milk/").then((res) => {
       setProducts(res.data);
+      // const aaa = res.data;
     });
   }, []);
+
+  // axios.get("/api/milk/").then((res) => {
+  // console.log(aaa);
+  // }),
+  // useEffect(() => {
+  //   !JSON.parse(localStorage.getItem(`locallist${namelist}`))
+  //     ? axios.get("/api/milk/").then((res) => {
+  //         setProducts(res.data);
+  //       })
+  //     : setProducts([
+  //         ...list,
+  //         JSON.parse(localStorage.getItem(`locallist${namelist}`)),
+  //       ]);
+  //   console.log(products);
+  // }, [namelist]);
+
+  // const chek = (product) => {
+  //   const findprodact = JSON.parse(
+  //     localStorage.getItem(`locallist${namelist}`)
+  //   ).find((prod) => prod.id === product.id);
+  //   console.log(findprodact && findprodact.checked);
+  // };
 
   // const removeProduct = (productId) => {
   //   axios.delete("/api/list/" + productId);
@@ -25,19 +48,49 @@ const Milk = ({ onchange, namelist }) => {
     <div className="opendiv">
       {products.map((product) => (
         <div className="product" key={product.id}>
-          <input
+          {/* <input
             type="checkbox"
-            onChange={() => {
-              namelist && onchange(product);
+            checked={
+              product.checked
+              // JSON.parse(localStorage.getItem(`locallist${namelist}`)) &&
+              // namelist && chek(product)
+            }
+            // onChange={() => {
+            //   namelist &&
+            //     // onchange();
+            //     // setProduct(product);
+            //   console.log(product);
+            // }}
+          ></input> */}
+          <button
+            className="plus"
+            onClick={() => {
+              setProduct({
+                id: product.id,
+                title: product.title,
+                kamut: product.kamut,
+                image: product.image,
+                checked: false,
+              });
+              product.kamut = 0;
             }}
-          ></input>
+          >
+            X
+          </button>
+
           <img src={product.image} alt=""></img>
           {product.title}
           <div>
             <button
-              className="plus"
+              className="buttonplus"
               onClick={() => {
-                setkamut(product.kamut++);
+                namelist && product.kamut++;
+                setProduct({
+                  id: product.id,
+                  title: product.title,
+                  kamut: product.kamut,
+                  image: product.image,
+                });
               }}
             >
               +
@@ -46,9 +99,16 @@ const Milk = ({ onchange, namelist }) => {
             {product.kamut}
             {"  "}
             <button
-              className="minus"
+              className="buttonplus"
+              disabled={product.kamut < 1 ? true : false}
               onClick={() => {
-                setkamut(product.kamut--);
+                product.kamut--;
+                setProduct({
+                  id: product.id,
+                  title: product.title,
+                  kamut: product.kamut,
+                  image: product.image,
+                });
               }}
             >
               -
@@ -56,13 +116,6 @@ const Milk = ({ onchange, namelist }) => {
           </div>
         </div>
       ))}{" "}
-      {/* <button
-        onClick={() => {
-          console.log("prod");
-        }}
-      >
-        aa
-      </button> */}
     </div>
   );
 };
