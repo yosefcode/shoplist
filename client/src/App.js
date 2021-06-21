@@ -15,6 +15,9 @@ function callback(key) {
 function App() {
   const [locallist, setLocallist] = useState([]);
   const [namelist, setNamelist] = useState("");
+  const [product, setProduct] = useState({});
+  const getItemlocallist =
+    JSON.parse(localStorage.getItem(`locallist${namelist}`)) || [];
 
   useEffect(() => {
     !JSON.parse(localStorage.getItem(`locallist${namelist}`))
@@ -24,9 +27,12 @@ function App() {
 
   const valuelocallist = {
     locallist: locallist,
-    addprodact: (value) => setLocallist(value),
+    setLocallist: (value) => setLocallist(value),
     namelist: namelist,
     setNamelist: (value) => setNamelist(value),
+    product: product,
+    setProduct: (value) => setProduct(value),
+    getItemlocallist: getItemlocallist,
   };
 
   return (
@@ -51,8 +57,6 @@ function App() {
             </TabPane>
           </Tabs>
         </div>
-        {/* <List /> */}
-        {/* <Locallist /> */}
       </AppContext.Provider>
     </div>
   );

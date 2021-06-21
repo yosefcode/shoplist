@@ -3,8 +3,7 @@ import "./btnlist.css";
 import { AppContext } from "../../prodactcontext";
 
 const Btnlist = () => {
-  const { addprodact, locallist, namelist, setNamelist } =
-    useContext(AppContext);
+  const { setNamelist } = useContext(AppContext);
 
   const [addnamelist, setAddNamalist] = useState("");
 

@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./all‏locallist.css";
 import { AppContext } from "../../prodactcontext";
 
 const Locallist = ({ setProduct }) => {
-  const { addprodact, locallist, namelist, setNamelist } =
-    useContext(AppContext);
+  const { namelist, setNamelist } = useContext(AppContext);
   const storagename = JSON.parse(localStorage.getItem(`locallistname`)) || [];
 
   return (
@@ -35,8 +34,9 @@ const Locallist = ({ setProduct }) => {
             {/* </div>
       <div> */}
             {JSON.parse(localStorage.getItem(`locallist${name.namelist}`)) &&
-              JSON.parse(localStorage.getItem(`locallist${name.namelist}`)).map(
-                (product) => (
+              JSON.parse(localStorage.getItem(`locallist${name.namelist}`))
+                .sort((a, b) => (a.title > b.title ? 1 : -1))
+                .map((product) => (
                   <div className="list" key={product.id}>
                     <button
                       onClick={() => {
@@ -47,6 +47,7 @@ const Locallist = ({ setProduct }) => {
                           image: product.image,
                           checked: false,
                         });
+                        // setNamelist(namelist);
                       }}
                     >
                       X
@@ -76,8 +77,7 @@ const Locallist = ({ setProduct }) => {
                       </button>
                     </div>
                   </div>
-                )
-              )}
+                ))}
           </div>
         ))}
       </div>

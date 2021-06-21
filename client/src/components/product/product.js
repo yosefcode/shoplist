@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "./product.css";
 import Milk from "../milk/milk.js";
 import Fruit from "../fruit/fruit.js";
@@ -14,17 +14,21 @@ function callback(key) {
   // console.log(key);
 }
 const Product = () => {
-  const { addprodact, locallist, namelist, setNamelist } =
-    useContext(AppContext);
-
-  const [product, setProduct] = useState({});
+  const {
+    setLocallist,
+    locallist,
+    namelist,
+    product,
+    setProduct,
+    getItemlocallist,
+  } = useContext(AppContext);
 
   useEffect(() => {
     namelist && onchange();
   }, [product]);
 
-  const getItemlocallist =
-    JSON.parse(localStorage.getItem(`locallist${namelist}`)) || [];
+  // const getItemlocallist =
+  //   JSON.parse(localStorage.getItem(`locallist${namelist}`)) || [];
 
   const removelocal = locallist.filter((listpro) => product.id !== listpro.id);
 
@@ -41,12 +45,12 @@ const Product = () => {
       ])
     );
 
-    addprodact((locallist) => [...locallist, product]);
+    setLocallist((locallist) => [...locallist, product]);
   };
 
   const removeprodactall = () => {
     localStorage.setItem(`locallist${namelist}`, JSON.stringify(removeprodact));
-    addprodact(removelocal);
+    setLocallist(removelocal);
   };
 
   const change = () => {
@@ -68,14 +72,10 @@ const Product = () => {
     <div className="tabpro" dir="rtl">
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="מוצרי חלב" key="1">
-          <Milk
-            onchange={onchange}
-            namelist={namelist}
-            setProduct={setProduct}
-          />
+          <Milk namelist={namelist} setProduct={setProduct} />
         </TabPane>
         <TabPane tab="פירות וירקות" key="2">
-          <Fruit onchange={onchange} />
+          <Fruit namelist={namelist} setProduct={setProduct} />
         </TabPane>
         <TabPane tab="שימורים" key="3">
           <h1 style={{ color: "white" }}>בקרוב </h1>{" "}
